@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      	
+     <f:loadBundle basename="messages" var="message"/>
+     
+	<h:head>
+		<link class="component" type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/css/estilo.css" />
+		
+		<script type="text/javascript" 
+				language="javascript" 
+				src="../scripts/script.js"/>
+		
+		
+		<title>
+			<ui:insert name="pageTitle">Envio de Newsletter - Telessaúde</ui:insert>
+		</title>
+		
+	</h:head>
+
+	<h:body onload="capturaImagem();">
+	
+		<p:layout fullPage="true">
+		
+			<p:layoutUnit position="north"
+					  id="topo"
+					  size="170"
+					  style="border: none;">
+				
+				<h:panelGrid style="margin-top: -5px; margin: auto;">
+					<p:graphicImage styleClass="imagem1200x140" value="/img/topo_telessaude.png"/>
+				</h:panelGrid>
+					  
+				<ui:insert name="topo">
+				</ui:insert>
+				
+
+			</p:layoutUnit>
+			
+			<p:layoutUnit position="south" 
+			  		  id="bottom"  
+			  		  size="30">
+				<h:panelGrid style="margin: auto; font-weight: bold;">
+					<h:outputText value="Copyright © Todos os direitos reservados. Telessaúde Goiás" />
+				</h:panelGrid>
+			</p:layoutUnit>
+			
+			<ui:insert name="menu1">
+				<p:layoutUnit position="west" 
+							  id="esquerda" 
+							  size="240" 
+							  header="Opções"
+							  minSize="200">
+							  
+					<ui:include src="/paginas/menu.xhtml"/>
+					
+				</p:layoutUnit>
+			</ui:insert>
+			
+			<p:layoutUnit position="center"
+					  id="center"
+					  styleClass="label">
+					  
+				<p:messages id="messages" autoUpdate="true" /> 
+				
+				<ui:insert name="corpo"/>
+				
+				<p:ajaxStatus style="width:64px;height:64px;position:fixed;left:50%;top:50%;">  
+				    <f:facet name="start"> 
+				    	
+					        <p:graphicImage value="/img/loading.gif"/>  
+					   
+				    </f:facet>  
+				  
+				    <f:facet name="complete">  
+				        <h:outputText value="" />  
+				    </f:facet>  
+				</p:ajaxStatus> 
+			</p:layoutUnit>
+			
+		</p:layout>
+	</h:body>
+		
+</html>

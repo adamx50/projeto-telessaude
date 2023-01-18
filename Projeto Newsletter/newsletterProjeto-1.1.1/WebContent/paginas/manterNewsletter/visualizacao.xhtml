@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/paginas/templates/template.xhtml">
+
+	<ui:define name="corpo">
+	
+		<h:form enctype="multipart/form-data"
+				id="idFormVisualizacao"
+				styleClass="label">
+
+			<h:panelGrid border="0">
+				
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:commandButton 
+							value="#{message['gerar.button.voltar']}"
+							action="#{mantemNewsletterAction.voltarInicio}"
+							icon="ui-icon-arrowreturnthick-1-w" />
+							
+						<p:commandButton action="#{mantemNewsletterAction.abreAlteracao}"
+											 icon="ui-icon-pencil" 
+											 value="Alterar"
+											 title="Editar Newsletter" />
+
+					</p:toolbarGroup>
+
+
+				</p:toolbar>
+
+				<p:panel
+					header="#{message['manterNewsletter.inclusao.panel.visualizarNewsletter']}">
+
+					<h:panelGrid border="0" columns="2">
+
+						<h:outputLabel for="idTITitulo"
+							value="#{message['manterNewsletter.inclusao.label.titulo']}" />
+						<p:inputText id="idTITitulo" required="true"
+							value="#{mantemNewsletterAction.formulario.entidade.titulo}"
+							style="width: 100%; padding-right: 0px; padding-left: 0px;"
+							disabled="true"/>
+
+
+						<h:outputLabel value="#{message['manterNewsletter.inclusao.label.imagem']}" />
+						
+						<p:panel>
+							<p:panel id="idPNLnomeImagem" 
+									 style="margin: 0 auto; border: none; padding: 0px; ">
+							
+								<p:graphicImage id="idGInomeImagem"
+												value="/img/imagemNewsletter/#{mantemNewsletterAction.formulario.entidade.nomeImagem}"/>  
+							</p:panel>
+						</p:panel>
+											  
+
+
+						<h:outputLabel
+							value="#{message['manterNewsletter.inclusao.label.destinatario']}" />
+
+						<h:panelGrid border="0" columns="5">
+
+							<p:selectOneMenu id="idSOMdestinatario"
+								value="#{mantemNewsletterAction.formulario.somDestinatarioValor}"
+								effect="fade" 
+								style="width: 245px;"
+								disabled="true">
+
+								<f:selectItem itemLabel=""/>
+								<f:selectItems
+									value="#{mantemNewsletterAction.formulario.destinatarios}" />
+
+								<p:ajax listener="#{mantemNewsletterAction.montarComboGeral}"
+									update="idPGComboDinamicas" />
+
+							</p:selectOneMenu>
+
+							<h:panelGrid columns="2" border="0" id="idPGComboDinamicas">
+
+								<h:outputLabel value="Profissões"
+									rendered="#{mantemNewsletterAction.formulario.somProfissaoRenderiza}" />
+								<p:selectOneMenu
+									rendered="#{mantemNewsletterAction.formulario.somProfissaoRenderiza}"
+									id="idSOMProfissoes" 
+									effect="fade" 
+									style="width: 220px;"
+									value="#{mantemNewsletterAction.formulario.somProfissoesValor}"
+									disabled="true">
+
+									<f:selectItem itemLabel="" />
+									<f:selectItems
+										value="#{mantemNewsletterAction.formulario.profissoes}" />
+
+								</p:selectOneMenu>
+
+								<h:outputLabel value="Especialistas"
+									rendered="#{mantemNewsletterAction.formulario.somEspecialistasRenderiza}" />
+								<p:selectOneMenu
+									rendered="#{mantemNewsletterAction.formulario.somEspecialistasRenderiza}"
+									id="idSOMRenderiza" 
+									effect="fade" 
+									style="width: 465px;"
+									value="#{mantemNewsletterAction.formulario.somEspecialistasValor}"
+									disabled="true">
+
+									<f:selectItem itemLabel="" />
+									<f:selectItems
+										value="#{mantemNewsletterAction.formulario.especialidades}" />
+
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+
+						</h:panelGrid>
+
+
+
+						<h:outputLabel
+							value="#{message['manterNewsletter.inclusao.label.link']}" />
+						<p:inputText 
+							style="width: 100%; padding-right: 0px; padding-left: 0px;"
+							value="#{mantemNewsletterAction.formulario.entidade.link}" 
+							disabled="true"/>
+					</h:panelGrid>
+
+
+
+
+				</p:panel>
+
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+
+
+</ui:composition>
+</html>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/paginas/templates/template.xhtml">
+	
+	
+	<ui:define name="corpo">
+	
+
+		<h:form id="idFormInicio">
+			
+			<p:fieldset id="idFieldSetListaNewsletter"
+						legend="#{message['manterNewsletter.consulta.panel.listaNewsletter']}"
+						toggleable="true"
+						toggleSpeed="200">
+				
+				<p:dataTable id="dtListaNewsletter" 
+							 var="newsletter" 
+							 value="#{mantemNewsletterAction.formulario.entidades}"
+							 emptyMessage="#{message['manterNewsletter.consulta.messagem.newsletternaoencontrada']}"
+							 paginator="true"
+							 rows="4"
+							 style="text-align: center; word-wrap:break-word;"
+							 filteredValue="#{mantemNewsletterAction.formulario.entidades}">
+							 
+					<f:facet name="header" >
+							
+							<p:outputPanel>
+							
+								<p:inputText id="idITFiltroNewsletter" 
+											 value="#{mantemNewsletterAction.formulario.fitroNewsletter}"
+											 style="width: 400px; margin-left: -530px;" />
+								
+								
+								<p:commandButton value="#{message['geral.label.pesquisar']}"
+												 action="#{mantemNewsletterAction.filtrarNewsletter}"
+												 icon="ui-icon-search"
+												 style="width: 90px;"
+												 update="dtListaNewsletter"/>
+								
+								<p:commandButton value="#{message['manterNewsletter.consulta.button.novaNewsletter']}"
+												 action="#{mantemNewsletterAction.abreInclusao}" 
+												 icon="ui-icon-plus"
+												 style="width: 90px;"
+												 ajax="false"/>
+												 
+							</p:outputPanel>
+					
+					</f:facet>
+
+					<p:column id="idColTitulo" 
+							  headerText="#{message['manterNewsletter.consulta.dataTable.titulo']}"
+							  width="200">
+							  
+						<h:outputText value="#{newsletter.titulo}" />
+						
+					</p:column>
+
+					<p:column id="idColDestinatario"
+						headerText="#{message['manterNewsletter.consulta.dataTable.destinatario']}"
+						width="200">
+						
+						<h:outputText value="#{newsletter.destinatario}" />
+					</p:column>
+					
+					<p:column id="idColQuantidadeEnvio"
+						headerText="#{message['manterNewsletter.consulta.dataTable.quantidaEnviada']}"
+						width="100">
+						
+						<h:outputText value="#{newsletter.quantidadeEnvioNewsletter} de #{newsletter.quantidadeDestinatario}" 
+									  id="idOTQuantidadeEnvio"/>
+					</p:column>
+
+
+					<p:column id="idColLink"
+						headerText="#{message['manterNewsletter.consulta.dataTable.link']}"
+						width="230">
+						
+						<h:outputText value="#{newsletter.link}" />
+					</p:column>
+					
+					<p:column id="idColData"
+						headerText="#{message['manterNewsletter.consulta.dataTable.dataCriacao']}"
+						width="80">
+						
+						<h:outputText value="#{newsletter.data}">
+						
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />  
+						</h:outputText>
+					</p:column>
+					
+					<p:column id="idColAcoes"
+						 	  headerText="#{message['manterNewsletter.consulta.dataTable.acoes']}">
+						
+						<h:panelGrid id="idPGAcoes"
+									 columns="5"
+									 style="width: 200px;" 
+									 border="0" 
+									 styleClass="semBorda">
+							
+							<p:commandButton id="idCBOlNewsSelecionada"
+											 icon="ui-icon-alert" 
+											 action="#{mantemNewsletterAction.listarEmailsNaoReceberamNewsletter}"
+											 title="Listar emails que não receberam está newsletter"
+											 update=":idFormInicio:idDTListaEmailsNaoReceberamNews"
+											 ajax="false">
+							
+								
+								<f:setPropertyActionListener value="#{newsletter}" 
+															 target="#{mantemNewsletterAction.formulario.newsletterEntidade}" />
+								
+							</p:commandButton>
+							<p:commandButton action="#{mantemNewsletterAction.abreVisualizacao}"
+											 icon="ui-icon-image"
+											 title="Visualizar newsletter">
+							
+											
+								<f:setPropertyActionListener value="#{newsletter}"
+														  target="#{mantemNewsletterAction.formulario.newsletterEntidade}" />
+							</p:commandButton>
+						
+							<p:commandButton action="#{mantemNewsletterAction.abreAlteracao}"
+											 icon="ui-icon-pencil" 
+											 title="Editar Newsletter"
+											 ajax="false">
+											
+								<f:setPropertyActionListener value="#{newsletter}"
+														  target="#{mantemNewsletterAction.formulario.newsletterEntidade}" />
+							</p:commandButton>
+						
+							<p:commandButton icon="ui-icon-mail-closed" 
+											 onclick="confirmacaoEnvioNews.show()"
+											 title="Enviar newsletter">
+											 
+								<f:setPropertyActionListener value="#{newsletter}"
+														     target="#{mantemNewsletterAction.formulario.newsletterEntidade}" />
+								
+							</p:commandButton>
+						
+							<p:commandButton onclick="confirmacaoRemocao.show()" 
+											 icon="ui-icon-trash"
+									   		 title="Remover newsletter">
+											
+								<f:setPropertyActionListener value="#{newsletter}"
+														 	 target="#{mantemNewsletterAction.formulario.newsletterEntidade}" />
+							</p:commandButton>
+								
+						</h:panelGrid>
+						
+					</p:column>
+					
+				</p:dataTable>
+			</p:fieldset>
+			
+			<p:spacer height="20"/>
+			
+			<p:fieldset legend="Emails que não receberam esta newsletter"
+						toggleable="true"
+						toggleSpeed="200"
+						rendered="${!empty mantemNewsletterAction.formulario.listaDescricaoEmailsNaoReceberamNewsletter}">
+				
+				<p:panel style="text-align: center">
+				 	<h:outputLabel id="idOLNewslecionada"
+				 				   value="Newsletter selecionada: #{mantemNewsletterAction.formulario.newsletterEntidade.titulo}"
+				 				   style="color: #024d02; font-weight: bold;" />
+				</p:panel>
+					 
+				<p:dataTable id="idDTListaEmailsNaoReceberamNews" 
+					 var="listaEmailsNaoReceberamNews" 
+					 value="#{mantemNewsletterAction.formulario.listaDescricaoEmailsNaoReceberamNewsletter}"
+					 emptyMessage="#{message['manterNewsletter.consulta.messagem.emailsNaoReceberamNewsNaoEncontrados']}"
+					 paginator="true"
+					 rows="4">
+					 
+							 
+					<p:column id="idDescricaoEmail" 
+							  headerText="#{message['manterNewsletter.consulta.dataTable.descricaoEmail']}">
+							  
+						<h:outputText value="#{listaEmailsNaoReceberamNews}" style="color: #FF0000"/>
+						
+					</p:column>
+					
+				</p:dataTable>
+			
+			</p:fieldset>
+			
+			
+		</h:form>
+		<p:confirmDialog id="idConfirmDialogRemover" 
+						 message="Deseja realmente remover a newsletter?"  
+               			 header="Confirmar remoção de newsletter" 
+               			 severity="alert" 
+               			 widgetVar="confirmacaoRemocao"
+               			 appendToBody="true">  
+             
+                 
+			        <p:commandButton id="idNRemover" 
+			        				 value="Não" 
+			        				 onclick="confirmacaoRemocao.hide()" />   
+			       
+			        <p:commandButton id="idSRemover" 
+			        				 value="Sim" 
+			        				 update=":messages :idFormInicio:dtListaNewsletter" 
+			        				 oncomplete="confirmacaoRemocao.hide()"  
+			                         action="#{mantemNewsletterAction.remover}" />  
+                 
+  	 	</p:confirmDialog> 
+  	 		
+		<p:confirmDialog id="idConfirmEnvioNewsletter" 
+						 message="Deseja realmente enviar esta newsletter?"  
+               			 header="Confirmar envio de newsletter" 
+               			 severity="alert" 
+               			 widgetVar="confirmacaoEnvioNews"
+               			 closable="false"
+               			 appendToBody="true">  
+            
+           
+                 
+		        <p:commandButton id="idNEnviar" value="Não" 
+		        				 onclick="confirmacaoEnvioNews.hide()"  />
+		       
+		        <p:commandButton id="idSEnviar" 
+		        				 value="Sim" 
+		        				 update=":messages :idFormInicio:idDTListaEmailsNaoReceberamNews :idFormInicio:dtListaNewsletter" 
+		        				 oncomplete="confirmacaoEnvioNews.hide()"  
+		                         action="#{mantemNewsletterAction.enviarNewsletter}"
+		                         onclick="confirmacaoEnvioNews.hide()" />  
+                 
+  	 		</p:confirmDialog>
+		
+		
+	</ui:define>
+</ui:composition>
+</html>

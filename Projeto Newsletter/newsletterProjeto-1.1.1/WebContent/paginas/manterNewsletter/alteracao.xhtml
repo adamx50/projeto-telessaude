@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/paginas/templates/template.xhtml">
+
+	<ui:define name="corpo">
+
+		<h:form enctype="multipart/form-data" 
+				id="idFormAlteracao"
+				styleClass="label">
+
+			<h:panelGrid border="0">
+
+				<p:panel
+					header="#{message['manterNewsletter.inclusao.panel.alterarNewsletter']}"
+					height="427">
+
+					<h:panelGrid border="0" columns="2">
+
+						<h:outputLabel for="idTITitulo"
+							value="#{message['manterNewsletter.inclusao.label.titulo']}" />
+						<p:inputText id="idTITitulo" 
+							required="true"
+							value="#{mantemNewsletterAction.formulario.entidade.titulo}"
+							style="width: 730px;"
+							maxlength="100"
+							label="Título">
+
+						</p:inputText>
+
+
+
+						<h:outputLabel value="#{message['manterNewsletter.inclusao.label.imagem']}" />
+						
+						
+						<p:panel style="width: 733px;">
+							<p:fileUpload 
+								id="idFUSelecionarImagem"
+								mode="advanced"
+								fileUploadListener="#{mantemNewsletterAction.fazerUpload}"
+								label="#{message['manterNewsletter.inclusao.button.selecionarImagem']}"
+								showButtons="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+								invalidSizeMessage="Tamanho de arquivo inválido!"
+								invalidFileMessage="Extensão de arquivo inválido! Somente: (gif, jpg, jpeg, png)"
+								auto="true" 
+								update="idFormAlteracao:idITEnderecoImagemInclusao"/>
+
+							<p:inputText 
+								id="idITEnderecoImagemInclusao" 
+								value="#{mantemNewsletterAction.formulario.enderecoImagem}" 
+								style="color: #009900; font-weight: bold; width: 400px;" 
+								required="true"
+								label="Imagem" 
+								disabled="true"/>
+						</p:panel>
+						
+
+
+						<h:outputLabel
+							value="#{message['manterNewsletter.inclusao.label.destinatario']}" />
+
+						<h:panelGrid border="0" columns="5">
+
+							<p:selectOneMenu id="idSOMdestinatario"
+								value="#{mantemNewsletterAction.formulario.somDestinatarioValor}"
+								effect="fade" 
+								style="width: 245px;"
+								required="true"
+								label="Destinatário">
+
+								<f:selectItem itemLabel=""/>
+								<f:selectItems
+									value="#{mantemNewsletterAction.formulario.destinatarios}" />
+
+								<p:ajax listener="#{mantemNewsletterAction.montarComboGeral}"
+									update="idPGComboDinamicas" />
+
+							</p:selectOneMenu>
+
+							<h:panelGrid columns="2" border="0" id="idPGComboDinamicas">
+
+								<h:outputLabel value="Profissões"
+									rendered="#{mantemNewsletterAction.formulario.somProfissaoRenderiza}" />
+								<p:selectOneMenu
+									rendered="#{mantemNewsletterAction.formulario.somProfissaoRenderiza}"
+									id="idSOMProfissoes" 
+									effect="fade" 
+									style="width: 220px;"
+									value="#{mantemNewsletterAction.formulario.somProfissoesValor}"
+									required="true"
+									label="Profissões">
+
+									<f:selectItem itemLabel="" />
+									<f:selectItems
+										value="#{mantemNewsletterAction.formulario.profissoes}" />
+
+								</p:selectOneMenu>
+
+								<h:outputLabel value="Especialistas"
+									rendered="#{mantemNewsletterAction.formulario.somEspecialistasRenderiza}" />
+								<p:selectOneMenu
+									rendered="#{mantemNewsletterAction.formulario.somEspecialistasRenderiza}"
+									id="idSOMRenderiza" effect="fade"
+									style="width: 465px;"
+									value="#{mantemNewsletterAction.formulario.somEspecialistasValor}"
+									required="true"
+									label="Especialistas">
+
+									<f:selectItem itemLabel="" />
+									<f:selectItems
+										value="#{mantemNewsletterAction.formulario.especialidades}" />
+
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+
+						</h:panelGrid>
+
+
+
+						<h:outputLabel
+							value="#{message['manterNewsletter.inclusao.label.link']}" />
+						<p:inputText 
+							id="idLinkAlteracao"
+							style="width: 730px;"
+							value="#{mantemNewsletterAction.formulario.entidade.link}" 
+							maxlength="150"
+							required="true"
+							label="Link"/>
+					</h:panelGrid>
+
+
+
+
+				</p:panel>
+
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:commandButton value="#{message['gerar.button.salvar']}"
+										 icon="ui-icon-disk" 
+										 action="#{mantemNewsletterAction.alterar}" />
+
+						<p:commandButton value="#{message['gerar.button.voltar']}"
+										 action="#{mantemNewsletterAction.voltarInicio}" 
+										 icon="ui-icon-arrowreturnthick-1-w"
+										 immediate="true"/>
+
+					</p:toolbarGroup>
+
+
+				</p:toolbar>
+
+			</h:panelGrid>
+			
+		</h:form>
+
+	</ui:define>
+
+
+
+</ui:composition>
+</html>
