@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	
+	<persistence-unit name="unidade_persistente_telemedicina">
+		
+		<class>br.ufg.medicina.tele.entidades.PsfProfissaoEntidade</class>
+		<class>br.ufg.medicina.tele.entidades.EspecialidadeEntidade</class>
+		<class>br.ufg.medicina.tele.entidades.NewsletterEntidade</class>
+		<class>br.ufg.medicina.tele.entidades.UsuarioEntidade</class>
+		<class>br.ufg.medicina.tele.entidades.EmailSucessoEntidade</class>
+		
+		
+		<class>PessoaPai</class>
+		<class>PessoaFisica</class>
+		<class>PessoaJuridica</class>
+		
+		
+		<!-- Teste -->
+		
+		<!-- fim teste -->
+		
+			<properties>
+			
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+			
+			<property name="hibernate.connection.driver_class" value="org.gjt.mm.mysql.Driver"/>
+			
+			
+			<!-- banco teste  <property name="hibernate.connection.url" value="jdbc:mysql://10.232.1.14:3306/telemedicina"/>-->
+			<property name="hibernate.connection.url" value="jdbc:mysql://10.232.1.26:3306/telemedicina"/>
+			
+			<property name="hibernate.connection.username" value="root"/>
+			
+			<property name="hibernate.connection.password" value="#tele@med#sql"/>
+			
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+					
+			<property name="hibernate.show_sql" value="true" /> 
+			
+			<property name="hibernate.format_sql" value="true" />
+			
+		</properties>
+		
+	</persistence-unit>
+</persistence>
